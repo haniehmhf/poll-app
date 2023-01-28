@@ -7,12 +7,15 @@ import {
   useState,
 } from "react";
 import { Option, Question, Result } from "../types/Vote";
+import { toast } from "react-toastify";
 
 const initQuestion = { title: "", options: [] };
+const initResult = {};
 
 const VoteCTX = createContext<ContextType>({
   question: initQuestion,
-  result: {},
+  result: initResult,
+  setQuestionTitle: () => {},
   setQuestion: () => {},
   updateOptions: () => {},
   deleteOption: () => {},
@@ -23,6 +26,7 @@ const VoteCTX = createContext<ContextType>({
 type ContextType = {
   question: Question;
   result: Result;
+  setQuestionTitle: (title: string) => void;
   setQuestion: (question: Question) => void;
   updateOptions: (option: Option) => void;
   deleteOption: (id: number) => void;
@@ -30,26 +34,40 @@ type ContextType = {
   setResult: (result: Result) => void;
 };
 
-const useVoteContext = () => useContext(VoteCTX) as ContextType;
+export const useVoteContext = () => useContext(VoteCTX) as ContextType;
 
 const VoteContext = ({ children }: { children: ReactNode }) => {
   const [question, setQuestion] = useState<Question>(initQuestion);
   const [result, setResult] = useState<Result>({});
+
+  const setQuestionTitle = useCallback(
+    (title: string) => {
+      setQuestion({ ...question, title: title || initQuestion.title });
+    },
+    [setQuestion, question]
+  );
 
   const updateOptions = useCallback(
     (option: Option) => {
       if (!option) return;
       setQuestion((prevQuestion: Question) => {
         const isExist = prevQuestion.options.find((op) => op.id === option.id);
+
+        let options = [...prevQuestion.options];
         if (isExist) {
-          prevQuestion.options = prevQuestion.options.map((opt: Option) => {
+          options = prevQuestion.options.map((opt: Option) => {
             if (opt.id === option.id) return option;
             return opt;
           });
         } else {
-          prevQuestion.options.push(option);
+          const isRepeated = prevQuestion.options.find(
+            (op) => op.value.toLowerCase() === option.value.toLowerCase()
+          );
+          if (isRepeated) {
+            toast.error("You added this option before");
+          } else options.push(option);
         }
-        return prevQuestion;
+        return { ...prevQuestion, options };
       });
     },
     [setQuestion]
@@ -59,9 +77,9 @@ const VoteContext = ({ children }: { children: ReactNode }) => {
     (id: number) => {
       setQuestion((prevQuestion: Question) => {
         prevQuestion.options = prevQuestion.options.filter(
-          (opt: Option) => opt.id === id
+          (opt: Option) => opt.id !== id
         );
-        return prevQuestion;
+        return { ...prevQuestion };
       });
     },
     [setQuestion]
@@ -69,13 +87,14 @@ const VoteContext = ({ children }: { children: ReactNode }) => {
 
   const resetVote = useCallback(() => {
     setQuestion(initQuestion);
-    setResult({});
-  }, []);
+    setResult(initResult);
+  }, [setQuestion, setResult]);
 
   const state = useMemo(
     () => ({
       question,
       result,
+      setQuestionTitle,
       setQuestion,
       updateOptions,
       deleteOption,
@@ -85,6 +104,7 @@ const VoteContext = ({ children }: { children: ReactNode }) => {
     [
       question,
       result,
+      setQuestionTitle,
       setQuestion,
       updateOptions,
       deleteOption,
