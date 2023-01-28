@@ -1,18 +1,23 @@
 import { useCallback, useState } from "react";
 import { useVoteContext } from "../../../context/VoteContext";
+import { toast } from "react-toastify";
 
 const AddOption = () => {
-  const { updateOptions } = useVoteContext();
+  const { updateOptions, question } = useVoteContext();
   const [value, setValue] = useState("");
 
   const AddOption = useCallback(
     (e: React.SyntheticEvent) => {
       e.preventDefault();
+      if (!question.title) {
+        toast.warn("Please First Add Question Title");
+        return;
+      }
       const id = Date.now();
       updateOptions({ id, value });
       setValue("");
     },
-    [value, updateOptions]
+    [value, updateOptions, question]
   );
 
   return (

@@ -30,3 +30,7 @@ form {
   padding: 10px 24px;
 }
 
+.error {
+  color: #F48484;
+}
+

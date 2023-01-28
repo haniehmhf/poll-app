@@ -7,7 +7,7 @@ function App() {
   return (
     <div className="app">
       <VoteContext>
-        <VotePage></VotePage>
+        <VotePage />
       </VoteContext>
     </div>
   );

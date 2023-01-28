@@ -20,7 +20,7 @@ const VoteCTX = createContext<ContextType>({
   updateOptions: () => {},
   deleteOption: () => {},
   resetVote: () => {},
-  setResult: () => {},
+  submitVote: () => {},
 });
 
 type ContextType = {
@@ -31,7 +31,7 @@ type ContextType = {
   updateOptions: (option: Option) => void;
   deleteOption: (id: number) => void;
   resetVote: () => void;
-  setResult: (result: Result) => void;
+  submitVote: (option: Option) => void;
 };
 
 export const useVoteContext = () => useContext(VoteCTX) as ContextType;
@@ -85,6 +85,21 @@ const VoteContext = ({ children }: { children: ReactNode }) => {
     [setQuestion]
   );
 
+  const submitVote = useCallback(
+    (option: Option) => {
+      setResult((prevResult: Result) => {
+        const result = { ...prevResult };
+        if (result[`${option.id}`])
+          result[`${option.id}`] = result[`${option.id}`] + 1;
+        else result[`${option.id}`] = 1;
+        return result;
+      });
+
+      toast.success(`Your vote for ${option.value} submitted`);
+    },
+    [setResult]
+  );
+
   const resetVote = useCallback(() => {
     setQuestion(initQuestion);
     setResult(initResult);
@@ -99,7 +114,7 @@ const VoteContext = ({ children }: { children: ReactNode }) => {
       updateOptions,
       deleteOption,
       resetVote,
-      setResult,
+      submitVote,
     }),
     [
       question,
@@ -109,7 +124,7 @@ const VoteContext = ({ children }: { children: ReactNode }) => {
       updateOptions,
       deleteOption,
       resetVote,
-      setResult,
+      submitVote,
     ]
   );
   return <VoteCTX.Provider value={state}>{children}</VoteCTX.Provider>;

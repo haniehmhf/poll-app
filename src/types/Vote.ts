@@ -9,5 +9,5 @@ export type Option = {
 }
 
 export type Result = {
-    [id: string]: string
+    [id: string]: number
 }
