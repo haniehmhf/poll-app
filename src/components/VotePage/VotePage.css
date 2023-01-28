@@ -1,30 +1,22 @@
-.page-container {
-    display: flex;
-    align-items: stretch;
-    justify-content: center;
-    box-shadow: 0px 0px 6px -2px rgba(227,227,227,1);
-    border-radius: 10px;
-    height: 100%;
+.vote-page {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  box-shadow: 0px 0px 6px -2px rgba(227, 227, 227, 1);
+  border-radius: 10px;
+  flex-wrap: wrap;
+  height: 100%;
 }
 
-.page-container > div:not(.Toastify) {
-    flex:1;
-    width: calc(100%/3 - 40px);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 1rem;
+@media (min-width: 768px) {
+  .vote-page {
+    grid-gap: 20px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+  }
 }
 
-.page-container > div:not(.Toastify):nth-child(2),
-.page-container > div:not(.Toastify):nth-child(3) {
-    box-shadow: -9px 1px 6px -11px rgba(196,196,196,0.33);
-}
-
-.page-container > div form {
-    display: flex;
-}
-
-.page-container > div input {
-    flex:1
+.vote-page > div {
+  padding: 1rem;
+  box-shadow: -9px 1px 6px -11px rgba(196, 196, 196, 0.33);
 }

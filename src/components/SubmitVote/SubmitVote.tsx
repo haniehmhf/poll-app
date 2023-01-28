@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useVoteContext } from "../../context/VoteContext";
 import OptionItem from "./OptionItem/OptionItem";
 import { Option } from "../../types/Vote";
+import "./SubmitVote.css";
 
 const SubmitVote = () => {
   const { question, submitVote } = useVoteContext();
@@ -13,21 +14,16 @@ const SubmitVote = () => {
   };
 
   return (
-    <div>
+    <div className="submit-vote">
       {question.title !== "" || !!question.options.length ? (
         <>
-          <div>
-            {question.options.length >= 2 ? (
-              <h3>Vote Here</h3>
-            ) : (
-              <p className="error">
-                You cannot answer this poll (at least 2 option)
-              </p>
-            )}
-            <p>
-              <strong>{question.title}</strong>
-            </p>
+          <h3>Vote Here</h3>
 
+          <p>
+            Q: <strong>{question.title}</strong>
+          </p>
+
+          <div>
             {!!question.options.length &&
               question.options.map((opt) => (
                 <OptionItem
@@ -38,17 +34,24 @@ const SubmitVote = () => {
                 />
               ))}
           </div>
-          <button
-            disabled={
-              question.options.length < 2 || !Object.values(selectedVote).length
-            }
-            onClick={handleSubmit}
-          >
-            Vote
-          </button>
+
+          <div className="footer">
+            {question.options.length < 2 && (
+              <p className="error">
+                You can't vote yet, at least 2 options are needed!
+              </p>
+            )}
+            <button
+              disabled={question.options.length < 2 || !selectedVote?.id}
+              onClick={handleSubmit}
+              data-testid="submit-vote"
+            >
+              Vote
+            </button>
+          </div>
         </>
       ) : (
-        <p>There is no created poll</p>
+        <p>No poll has been created.</p>
       )}
     </div>
   );

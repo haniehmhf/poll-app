@@ -1,15 +1,14 @@
 import CreateVote from "../CreateVote";
-import { ToastContainer } from "react-toastify";
 import "./VotePage.css";
 import SubmitVote from "../SubmitVote";
-const VotePage = () => {
-  return (
-    <div className="page-container">
-      <CreateVote />
-      <SubmitVote />
-      <ToastContainer />
-    </div>
-  );
-};
+import VoteResult from "../VoteResult";
+
+const VotePage = () => (
+  <div className="vote-page">
+    <CreateVote />
+    <SubmitVote />
+    <VoteResult />
+  </div>
+);
 
 export default VotePage;

@@ -1,0 +1,30 @@
+.create-vote {
+  display: flex;
+  flex-direction: column;
+}
+
+.create-vote form {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.create-vote .footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+.create-vote .footer button {
+  padding: 10px 24px;
+}
+
+.create-vote input {
+  flex: 1;
+}
+
+.create-vote .question-title {
+  margin-bottom: 1rem;
+  width: 100%;
+}

@@ -9,7 +9,10 @@ import {
 import { Option, Question, Result } from "../types/Vote";
 import { toast } from "react-toastify";
 
-const initQuestion = { title: "", options: [] };
+const initQuestion = {
+  title: "",
+  options: [],
+};
 const initResult = {};
 
 const VoteCTX = createContext<ContextType>({
@@ -56,7 +59,9 @@ const VoteContext = ({ children }: { children: ReactNode }) => {
         let options = [...prevQuestion.options];
         if (isExist) {
           options = prevQuestion.options.map((opt: Option) => {
-            if (opt.id === option.id) return option;
+            if (opt.id === option.id) {
+              return option;
+            }
             return opt;
           });
         } else {
@@ -64,8 +69,10 @@ const VoteContext = ({ children }: { children: ReactNode }) => {
             (op) => op.value.toLowerCase() === option.value.toLowerCase()
           );
           if (isRepeated) {
-            toast.error("You added this option before");
-          } else options.push(option);
+            toast.error("Option already exist");
+          } else {
+            options.push(option);
+          }
         }
         return { ...prevQuestion, options };
       });
@@ -89,9 +96,11 @@ const VoteContext = ({ children }: { children: ReactNode }) => {
     (option: Option) => {
       setResult((prevResult: Result) => {
         const result = { ...prevResult };
-        if (result[`${option.id}`])
-          result[`${option.id}`] = result[`${option.id}`] + 1;
-        else result[`${option.id}`] = 1;
+        if (result[option.id]) {
+          result[option.id] = result[option.id] + 1;
+        } else {
+          result[option.id] = 1;
+        }
         return result;
       });
 

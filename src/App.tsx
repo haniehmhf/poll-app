@@ -1,6 +1,7 @@
 import React from "react";
 import VoteContext from "./context/VoteContext";
 import VotePage from "./components/VotePage";
+import { ToastContainer } from "react-toastify";
 import "./App.css";
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
       <VoteContext>
         <VotePage />
       </VoteContext>
+      <ToastContainer newestOnTop hideProgressBar autoClose={1500} />
     </div>
   );
 }

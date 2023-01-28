@@ -1,0 +1,12 @@
+.submit-vote {
+  display: flex;
+  flex-direction: column;
+}
+
+.submit-vote .footer {
+  margin-top: auto;
+}
+
+.submit-vote .footer button {
+  width: 100%;
+}
