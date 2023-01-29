@@ -21,12 +21,13 @@ const AddOption = () => {
   );
 
   return (
-    <form onSubmit={AddOption}>
+    <form onSubmit={AddOption} data-testid="add-option-form">
       <input
         type="text"
         value={value}
         placeholder="Set answer..."
         onChange={(e) => setValue(e.target.value)}
+        data-testid="add-option-input"
       />
       <button disabled={value === ""} type="submit">
         Add

@@ -19,7 +19,7 @@ const SubmitVote = () => {
         <>
           <h3>Vote Here</h3>
 
-          <p>
+          <p data-testid="question">
             Q: <strong>{question.title}</strong>
           </p>
 
